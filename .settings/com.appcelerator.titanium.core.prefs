@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+provisioning_profiles/development/199B7A33-898D-4962-B91E-2E4F7BFB5E6E/appid=com.sendgrid.*
+provisioning_profiles/development/199B7A33-898D-4962-B91E-2E4F7BFB5E6E/name=SendGrid Work - Mock app
+provisioning_profiles/development/199B7A33-898D-4962-B91E-2E4F7BFB5E6E/uuid=199B7A33-898D-4962-B91E-2E4F7BFB5E6E

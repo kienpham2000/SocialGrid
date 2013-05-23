@@ -1,0 +1,8 @@
+<Alloy>
+	<Window class="container">
+		<Label id="label" onClick="doClick">Hello, World</Label>
+		<View ns='Ti.Map' id="map" />
+		<Switch id="on_off" onChange="mapControl" />
+	</Window>
+
+</Alloy>

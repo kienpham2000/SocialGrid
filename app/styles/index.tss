@@ -1,0 +1,31 @@
+".container": {
+    orientationModes: [
+        Ti.UI.LANDSCAPE_LEFT,
+        Ti.UI.LANDSCAPE_RIGHT,
+        Ti.UI.PORTRAIT,
+        Ti.UI.UPSIDE_PORTRAIT
+    ]
+},
+"Label": {
+    width: Ti.UI.SIZE,
+    height: Ti.UI.SIZE,
+    color: "#000"
+}
+
+"#map": {
+	left: "0",
+	top: "0",
+	width: "auto",
+	height: "auto",
+	zIndex: "0",
+	prop_customData: "92683"
+
+},
+"#on_off": {
+	left: "0",
+	top: "200",
+	width: "auto",
+	height: "auto",
+	zIndex: "1",
+	value: true
+}
