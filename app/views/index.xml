@@ -1,8 +1,39 @@
 <Alloy>
-	<Window class="container">
-		<Label id="label" onClick="doClick">Hello, World</Label>
-		<View ns='Ti.Map' id="map" />
-		<Switch id="on_off" onChange="mapControl" />
-	</Window>
+    <!-- Main Window -->
+    <Window id="todoWin" title="Todo">
+        <TableView id="todoTable" dataCollection="todo"
+        	           dataFilter="whereFunction" dataTransform="transformFunction">
+        		<Require src="_albums_feed"/>
+        </TableView>
+
+        <!-- iOS: footer with buttons -->
+        <View platform="ios" id="footer">
+            <TabbedBar onClick="showTasks" id="tabbedbar">
+                <Labels>
+                    <Label>Facebook</Label>
+                    <Label>Twitter</Label>
+                    <Label>Others</Label>
+                </Labels>
+            </TabbedBar>
+        </View>
+
+        <!-- Android: menu -->
+        <Menu platform="android">
+            <MenuItem title="All" onClick="showTasks"/>
+            <MenuItem title="Active" onClick="showTasks"/>
+            <MenuItem title="Done" onClick="showTasks"/>
+        </Menu>
+    </Window>
+
+    <!-- Mobileweb -->
+   	<Window id="index" platform="mobileweb">
+	    <NavigationGroup id="navgroup">
+	        <Require src="master" id="master"/>
+	    </NavigationGroup>
+   	</Window>
+
+  	<!-- Android -->
+    <Require id="master" src="master" platform="android"/>
+
 
 </Alloy>

@@ -1,16 +1,102 @@
-function doClick(e) {
-    /*alert($.label.text);*/
+var todos = Alloy.Collections.todo;
+var INDEXES = {
+	'All': 0,
+	'Active': 1,
+	'Done': 2
+};
+var whereIndex = INDEXES['All'];
 
-    alert($.label2.text);
+// make sure the current platform supports the current sync adapter
+var adapter = require('alloy/models/Todo').definition.config.adapter.type,
+	err;
+switch(adapter) {
+	case 'localStorage':
+		// only supported on Mobileweb
+		!OS_MOBILEWEB && (err = 'localStorage adapter only supported on Mobileweb');
+		break;
+	case 'properties':
+		// supported on all platforms
+		break;
+	case 'sql':
+	case 'sql_new':
+		// supported on android and ios
+		!OS_ANDROID && !OS_IOS && (err = 'sql adapter only supported on Android and iOS');
+		break;
+	default:
+		err = 'Unknown adapter type "' + adapter + '"';
+		break;
 }
 
-function mapControl(e)
-{
-	console.log("inside map control");
-	$.map.visible = $.on_off.value;
+if (err) {
+	alert(err);
+} else {
+	$.todoWin.open();
+	todos.fetch();
 }
 
-$.index.open();
+// Filter the fetched collection before rendering. Don't return the
+// collection itself, but instead return an array of models
+// that you would like to render.
+function whereFunction(collection) {
+	return !whereIndex ?
+		collection.models :
+		collection.where({ done: whereIndex === 1 ? 0 : 1 });
+}
 
-console.log("size is...: ");
-console.log(Ti.UI.SIZE);
+// Perform transformations on each model as it is processed. Since
+// these are only transformations for UI representation, we don't
+// actually want to change the model. Instead, return an object
+// that contains the fields you want to use in your bindings. The
+// easiest way to do that is to clone the model and return its
+// attributes with the toJSON() function.
+function transformFunction(model) {
+	var transform = model.toJSON();
+	transform.item = '[' + transform.item + ']';
+	return transform;
+}
+
+// open the "add item" window
+function addToDoItem() {
+  	Alloy.createController("add").getView().open();
+}
+
+// Show task list based on selected status type
+function showTasks(e) {
+	if (typeof e.index !== 'undefined' && e.index !== null) {
+		whereIndex = e.index; // TabbedBar
+	} else {
+		whereIndex = INDEXES[e.source.title]; // Android menu
+	}
+	todos.fetch();
+}
+
+var isIpad = OS_IOS && Alloy.isTablet;
+var usesNavGroup = (OS_IOS && Alloy.isHandheld) || OS_MOBILEWEB;
+
+// save a global reference to the navgroup on iPhone
+if (usesNavGroup) {
+	Alloy.Globals.navgroup = $.navgroup;
+}
+
+// respond to detail event triggered on index controller
+$.master.on('detail', function(e) {
+	// get the detail controller and window references
+	var controller = isIpad ? $.detail : Alloy.createController('detail');
+	var win = controller.getView();
+
+	// set the new detail article
+	controller.setArticle(e.row.articleUrl);
+
+	// open the detail windows
+	if (usesNavGroup) {
+		Alloy.Globals.navgroup.open(win);
+	} else if (OS_ANDROID) {
+		win.open();
+	}
+});
+
+if (OS_ANDROID) {
+	$.master.getView().open();
+} else {
+	$.index.open();
+}
