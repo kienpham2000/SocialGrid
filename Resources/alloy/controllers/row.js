@@ -22,11 +22,11 @@ function Controller() {
     });
     $.__views.row.add($.__views.image);
     $.__views.date = Ti.UI.createLabel({
-        width: "68dp",
         height: Ti.UI.SIZE,
-        color: "#444",
+        width: "68dp",
         left: "5dp",
         bottom: "3dp",
+        color: "#444",
         font: {
             fontSize: "12dp"
         },
@@ -36,9 +36,7 @@ function Controller() {
     });
     $.__views.row.add($.__views.date);
     $.__views.title = Ti.UI.createLabel({
-        width: Ti.UI.SIZE,
         height: "70dp",
-        color: "#000",
         font: {
             fontSize: "16dp"
         },

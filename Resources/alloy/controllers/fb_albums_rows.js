@@ -4,19 +4,13 @@ function Controller() {
     arguments[0] ? arguments[0]["$model"] : null;
     var $ = this;
     var exports = {};
-    $.__views.detail = Ti.UI.createWindow({
-        id: "detail"
-    });
-    $.__views.detail && $.addTopLevelView($.__views.detail);
-    $.__views.web = Ti.UI.createWebView({
-        id: "web"
-    });
-    $.__views.detail.add($.__views.web);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    exports.setArticle = function(articleUrl) {
-        $.web.url = articleUrl;
-    };
+    var args = arguments[0] || {};
+    $.row.articleUrl = args.articleUrl;
+    $.image.image = args.image;
+    $.date.text = args.date;
+    $.title.text = args.title;
     _.extend($, exports);
 }
 

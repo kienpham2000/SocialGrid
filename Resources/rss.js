@@ -1,4 +1,4 @@
-var RSS_URL = "http://feeds.mashable.com/Mashable?format=xml";
+var RSS_URL = "https://graph.facebook.com/307023978966?fields=albums.fields(name)";
 
 var MONTH_MAP = {
     JAN: 1,
@@ -15,54 +15,32 @@ var MONTH_MAP = {
     DEC: 12
 };
 
-var getRssText = function(item, key) {
-    return item.getElementsByTagName(key).item(0).text;
-};
-
 var parseDate = function(dateString) {
     var dateParts = dateString.split(" ");
     var timeParts = dateParts[4].split(":");
     return MONTH_MAP[dateParts[2].toUpperCase()] + "/" + dateParts[1] + " " + timeParts[0] + ":" + timeParts[1];
 };
 
-exports.loadRssFeed = function(o, tries) {
-    var xhr = Titanium.Network.createHTTPClient();
-    tries = tries || 0;
-    xhr.open("GET", RSS_URL);
-    xhr.onload = function() {
-        var xml = this.responseXML;
-        if (null === xml || null === xml.documentElement) {
-            if (3 > tries) {
-                tries++;
-                exports.loadRssFeed(o, tries);
-                return;
-            }
-            alert("Error reading RSS feed. Make sure you have a network connection and try refreshing.");
-            o.error && o.error();
-            return;
-        }
-        var items = xml.documentElement.getElementsByTagName("item");
-        var data = [];
-        for (var i = 0; items.length > i; i++) {
-            var item = items.item(i);
-            var image;
-            try {
-                image = item.getElementsByTagNameNS("http://mashable.com/", "thumbnail").item(0).getElementsByTagName("img").item(0).getAttribute("src");
-            } catch (e) {
-                image = "";
-            }
-            data.push({
-                title: getRssText(item, "title"),
-                link: getRssText(item, "link"),
-                pubDate: parseDate(getRssText(item, "pubDate")),
-                image: image
+exports.loadRssFeed = function(o) {
+    var url = "https://graph.facebook.com/307023978966?fields=albums.fields(photos.source,name,cover_photo,link)";
+    var xhr = Ti.Network.createHTTPClient({
+        onload: function() {
+            var json = JSON.parse(this.responseText);
+            var data = [];
+            for (i = 0; json.albums.data.length > i; i++) data.push({
+                title: json.albums.data[i].name,
+                image: json.albums.data[i].photos.data[0].source,
+                date: json.albums.data[i].photos.data[0].created_time,
+                link: json.albums.data[i].link
             });
-        }
-        o.success && o.success(data);
-    };
-    xhr.onerror = function() {
-        o.error && o.error();
-    };
-    o.start && o.start();
+            o.success(data);
+        },
+        onerror: function(e) {
+            Ti.API.debug(e.error);
+            alert("Cannot load albums, please try again later.");
+        },
+        timeout: 5e3
+    });
+    xhr.open("GET", url);
     xhr.send();
 };

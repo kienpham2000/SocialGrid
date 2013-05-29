@@ -1,4 +1,4 @@
-"#todoWin": {
+".full_win": {
 	fullscreen: true,
 	navBarHidden: true,
 	exitOnClose: true,
@@ -81,7 +81,7 @@
 },
 "#tabbedbar": {
 	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
-	backgroundColor: '#800',
+	// backgroundColor: '#800',
 	index: 0,
 	height: 40,
 	left: 20,

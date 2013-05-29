@@ -15,9 +15,6 @@ function Controller() {
     $.__views.albums_feed.add($.__views.check);
     toggleStatus ? $.__views.check.addEventListener("click", toggleStatus) : __defers["$.__views.check!click!toggleStatus"] = true;
     $.__views.task = Ti.UI.createLabel({
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE,
-        color: "#000",
         id: "task",
         text: "undefined" != typeof $model.__transform["item"] ? $model.__transform["item"] : $model.get("item")
     });

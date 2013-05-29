@@ -5,3 +5,11 @@
 		<Label id="title"/>
 	</TableViewRow>
 </Alloy>
+
+<!-- <Alloy>
+  <TableViewRow id="row">
+    <ImageView id="check" onClick="toggleStatus"/>
+    <Label id="task" text="{item}"/>
+    <ImageView id="remove" onClick="deleteTask"/>
+  </TableViewRow>
+</Alloy> -->

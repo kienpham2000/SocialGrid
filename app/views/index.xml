@@ -1,39 +1,75 @@
 <Alloy>
-    <!-- Main Window -->
-    <Window id="todoWin" title="Todo">
-        <TableView id="todoTable" dataCollection="todo"
-        	           dataFilter="whereFunction" dataTransform="transformFunction">
-        		<Require src="_albums_feed"/>
-        </TableView>
+	<TabGroup>
+		<Tab id="fb_tab" title="Facebook">
+			<Window id="fb_win" class="full_win">
+				<Menu platform="android">
+					<MenuItem title="Refresh" icon="/refresh_icon.png" onClick="refreshRss"/>
+				</Menu>
 
-        <!-- iOS: footer with buttons -->
-        <View platform="ios" id="footer">
-            <TabbedBar onClick="showTasks" id="tabbedbar">
-                <Labels>
-                    <Label>Facebook</Label>
-                    <Label>Twitter</Label>
-                    <Label>Others</Label>
-                </Labels>
-            </TabbedBar>
-        </View>
+		        <View id="header">
+		            <Label id="title">Facebook Albums</Label>
+		        </View>
 
-        <!-- Android: menu -->
-        <Menu platform="android">
-            <MenuItem title="All" onClick="showTasks"/>
-            <MenuItem title="Active" onClick="showTasks"/>
-            <MenuItem title="Done" onClick="showTasks"/>
-        </Menu>
-    </Window>
+		        <RightNavButton platform="ios,mobileweb">
+					<Button id="refreshButton" onClick="refreshRss"/>
+				</RightNavButton>
 
-    <!-- Mobileweb -->
-   	<Window id="index" platform="mobileweb">
-	    <NavigationGroup id="navgroup">
-	        <Require src="master" id="master"/>
-	    </NavigationGroup>
-   	</Window>
+				<TableView id="fb_table_albums">
+					<TableViewRow>
+						<ImageView id="image"/>
+						<Label id="date"/>
+						<Label id="title"/>
+					</TableViewRow>
+    				</TableView>
+			</Window>
+		</Tab>
 
-  	<!-- Android -->
-    <Require id="master" src="master" platform="android"/>
+		<Tab id="twitter_tab" title="Twitter">
+			<Window class="full_win"></Window>
+		</Tab>
 
+		<Tab id="foursquare_tab" title="Foursquare">
+			<Window class="full_win"></Window>
+		</Tab>
 
+		<Tab id="other_tab" title="Other">
+			<Window class="full_win"></Window>
+		</Tab>
+
+		<Tab id="todo_tab" title="Todo">
+		    <Window id="todoWin" class="full_win">
+
+	        <!-- header -->
+	        <View id="header">
+	            <Label id="title">Todo</Label>
+	            <View id="addView" onClick="addToDoItem">
+	                <ImageView id="addImage"/>
+	            </View>
+	        </View>
+
+	        <TableView id="todoTable" dataCollection="todo"
+	        	           dataFilter="whereFunction" dataTransform="transformFunction">
+	        		<Require src="row"/>
+	        </TableView>
+
+	        <!-- iOS: footer with buttons -->
+	        <View platform="ios" id="footer">
+	            <TabbedBar onClick="showTasks" id="tabbedbar">
+	                <Labels>
+	                    <Label>All</Label>
+	                    <Label>Active</Label>
+	                    <Label>Done</Label>
+	                </Labels>
+	            </TabbedBar>
+	        </View>
+
+	        <!-- Android: menu -->
+	        <Menu platform="android">
+	            <MenuItem title="All" onClick="showTasks"/>
+	            <MenuItem title="Active" onClick="showTasks"/>
+	            <MenuItem title="Done" onClick="showTasks"/>
+	        </Menu>
+		</Window>
+		</Tab>
+	</TabGroup>
 </Alloy>

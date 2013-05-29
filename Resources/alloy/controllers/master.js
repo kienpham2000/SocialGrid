@@ -25,7 +25,6 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.master = Ti.UI.createWindow({
-        backgroundColor: "#fff",
         title: "RSS Reader",
         id: "master"
     });
@@ -45,7 +44,7 @@ function Controller() {
     _.extend($, $.__views);
     var rss = require("rss");
     refreshRss();
-    __defers["$.__views.__alloyId25!click!refreshRss"] && $.__views.__alloyId25.addEventListener("click", refreshRss);
+    __defers["$.__views.__alloyId37!click!refreshRss"] && $.__views.__alloyId37.addEventListener("click", refreshRss);
     __defers["$.__views.refreshButton!click!refreshRss"] && $.__views.refreshButton.addEventListener("click", refreshRss);
     __defers["$.__views.table!click!openDetail"] && $.__views.table.addEventListener("click", openDetail);
     _.extend($, exports);
